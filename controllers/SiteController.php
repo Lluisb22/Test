@@ -9,6 +9,12 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\EntryForm;
+
+
+
+require_once '../vendor/autoload.php';
+		
 
 class SiteController extends Controller
 {
@@ -125,4 +131,34 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+	
+	/*
+	* Say 'Hello world'
+	*
+	* @return string
+	*/
+	public function actionSay($message = 'Hola')
+	{
+		return $this->render('say', ['message' => $message]);
+	}
+	
+	public function actionEntry()
+	{
+		$model = new EntryForm;
+		if ($model->load(Yii::$app->request->post()) && $model->validate())
+		{
+			
+			$numSent =Yii::$app->mailer->compose('layouts/html', ['content' => $model->name])
+				->setFrom('baycat@gmail.com')
+				->setTo($model->email)
+				->setSubject('Prova 1')
+				->send();
+			
+			$model->name = $numSent;
+			return $this->render('entry-confirm', ['model' => $model]);
+		} else {
+			// la ´apgina es mostrada inicialmente o hay ´ualgn error de ´ovalidacin
+			return $this->render('entry', ['model' => $model]);
+		}
+	}
 }
