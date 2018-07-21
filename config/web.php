@@ -15,6 +15,8 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '-kRfybY_O8DZSMDkiQ4_EidkJ5W8QIrr',
+		/*	'class' => 'application.components.HttpRequest',
+			'enableCsrfValidation' => true,*/
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -22,16 +24,25 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+			//'loginUrl' => ['site/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'transport' => [
+                'class' => Swift_SmtpTransport::class,
+                'host' => 'smtp.gmail.com',
+                'username' => 'baycat@gmail.com',
+                'password' => '********',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
+			'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
