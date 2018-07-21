@@ -1,7 +1,0 @@
-A ver si eres capaz de configurar un formulario de registro que envíe un email al usuario con un token de acceso para acceder de forma inmediata.
-
-- Generar Formulario -> Done
-- "Formulario de registro" -> registro para activación de cuenta -> Done
-- Envio automático de mail a un usuario -> Pedir mail
-- Token de acceso a "zona usuario"
-- Acceso inmediato -> url propia de activación de cuenta
