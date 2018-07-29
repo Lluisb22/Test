@@ -2,6 +2,22 @@ A ver si eres capaz de configurar un formulario de registro que envíe un email 
 
 - Generar Formulario -> Done
 - "Formulario de registro" -> registro para activación de cuenta -> Done
-- Envio automático de mail a un usuario -> Pedir mail
+- Envio automático de mail a un usuario -> Done
 - Token de acceso a "zona usuario"
+	*Funciones para añadir usuario nuevo a la tabla de usuarios
+	** Comprobar usuarios únicos
+	*Añadir campo 'Validate' a la tabla de usuarios
+	*Proceso de autenticación:
+		~ Añadir Información del usuario a la tabla sin validar -> Done
+		~ Generar Token y clave de usuario automáticamente -> Done
+		~obtener información del nuevo usuario -> Done
+		~ Codificar token y fecha (expiración por tiempo) con la clave única del usuario => Token final
+		~ Montar Token final a url de validación cómo parametro
+		~ Enviar via mail la url de validación del usuario
+		~ Recepción de la petición de validación -> Done
+		~ Decodificar el Token final
+		~ Comprobar que el tiempo de vida del token no ha expirado
+		~ Validar token  de usuario => Validar en la tabla
+		~~ Pedir contraseña al usuario para proximos accesos
+		
 - Acceso inmediato -> url propia de activación de cuenta

@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\Users;
 
 /**
  * LoginForm is the model behind the login form.
@@ -11,13 +12,15 @@ use yii\base\Model;
  * @property User|null $user This property is read-only.
  *
  */
-class LoginForm extends Model
+class ValidatedForm extends Model
 {
-    public $username;
-    public $password;
-    public $rememberMe = true;
+    //public $user;
+    public $password = false;
+	public $repeat_password;
+	public $token;
+    //public $rememberMe = true;
 
-    private $_user = false;
+    //private $_user = false;
 
 
     /**
@@ -25,14 +28,13 @@ class LoginForm extends Model
      */
     public function rules()
     {
-        return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
-        ];
+        return array(
+            //password and repeat password
+            array(['password, repeat_password'], 'required', 'on' => 'Validated'),
+            //array(['password, repeat_password'], 'string', 'min'=>6, 'max'=>40),
+            //array('repeat_password', 'compare', 'compareAttribute' =>'password'),
+            
+		);
     }
 
     /**
@@ -42,6 +44,7 @@ class LoginForm extends Model
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
+	 
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
@@ -62,7 +65,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
         }
-        return false;
+        return false; 
     }
 
     /**
@@ -72,10 +75,10 @@ class LoginForm extends Model
      */
     public function getUser()
     {
-	
-		$this->_user = User::findByUsername($this->username);
+        if ($this->_user === false) {
+            $this->_user = User::findIdentityByAccessToken($this->token);
+        }
 
-	
         return $this->_user;
     }
 }

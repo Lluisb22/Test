@@ -17,7 +17,7 @@ class EntryForm extends Model
     public $email;
    // public $rememberMe = true;
 
-    //private $_user = false;
+    private $_user = false;
 
 
     /**
@@ -29,5 +29,24 @@ class EntryForm extends Model
             [['name', 'email'], 'required'],
             ['email', 'email'],
         ];
+    }
+	
+	    /**
+     * Finds user by [[username]]
+     *
+     * @return User|null
+     */
+    public function getNewUser()
+    {
+        if ($this->_user === false) {
+            $this->_user =  new Users();
+			$this->_user->username = $name;
+			$this->_user->email = $email;
+			$this->_user->authKey = 'test1111Key';
+			$this->_user->accessToken = 'token-Prova';
+			$this->_user->save();
+        }
+
+        return $this->_user;
     }
 }

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 ?>
 <p>We have sent an e-mail with the confirmation to the folliwing adress:</p>
 <ul>
